@@ -24,6 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="*" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*" PrivateAssets="All" />
   </ItemGroup>
 
