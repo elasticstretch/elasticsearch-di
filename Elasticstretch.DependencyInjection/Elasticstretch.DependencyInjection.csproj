@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>11.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AnalysisLevel>7-all</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Kyle McClellan</Authors>
+    <Copyright>%A9 2023 Kyle McClellan</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>An extension of Elastic.Clients.Elasticsearch for use with Microsoft.Extensions.DependencyInjection (and friends).</Description>
+    <PackageTags>elasticsearch;elastic;search;dependencyinjection;di;ioc</PackageTags>
+    <PackageProjectUrl>https://github.com/kmcclellan/elasticstretch</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/kmcclellan/elasticstretch/releases/v$(Version)</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elastic.Clients.Elasticsearch" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="*" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md;..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
