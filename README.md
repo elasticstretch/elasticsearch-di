@@ -5,6 +5,7 @@ Extensions for the [Elasticsearch .NET client](https://github.com/elastic/elasti
 * Inject/resolve Elasticsearch clients using `Microsoft.Extensions.DependencyInjection`.
 * Configure Elasticsearch clients using `Microsoft.Extensions.Options`.
 * Load config properties using `Microsoft.Extensions.Configuration`.
+* Configurable HTTP handlers/logging using `Microsoft.Extensions.Http`.
 
 ## Installation
 
