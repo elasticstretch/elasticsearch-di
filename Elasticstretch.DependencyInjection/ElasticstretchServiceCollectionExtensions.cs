@@ -25,10 +25,14 @@ public static class ElasticstretchServiceCollectionExtensions
     /// </remarks>
     /// <param name="services">The service collection.</param>
     /// <param name="configureSettings">A delegate to configure the client settings.</param>
+    /// <param name="configureHttp">
+    /// A delegate to configure the underlying HTTP client (not all features supported).
+    /// </param>
     /// <returns>The same services, for chaining.</returns>
     public static IServiceCollection AddElasticsearchClient(
         this IServiceCollection services,
-        Action<ElasticsearchClientSettings>? configureSettings = null)
+        Action<ElasticsearchClientSettings>? configureSettings = null,
+        Action<IHttpClientBuilder>? configureHttp = null)
     {
         services.AddOptions();
 
@@ -45,6 +49,8 @@ public static class ElasticstretchServiceCollectionExtensions
         {
             services.Configure<ElasticsearchClientOptions>(x => x.ConfigureSettings += configureSettings);
         }
+
+        configureHttp?.Invoke(services.AddHttpClient(HttpFactoryClient.ClientName));
 
         return services;
     }
