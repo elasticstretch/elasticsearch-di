@@ -1,13 +1,22 @@
 ﻿namespace Elastic.Clients.Elasticsearch.Options;
 
+using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
 
 sealed class ConfigureClientFromNodes
     : ConfigureOptionsFromOptions<ElasticsearchClientOptions, ElasticsearchNodeOptions>
 {
-    public ConfigureClientFromNodes(IOptionsFactory<ElasticsearchNodeOptions> optionsFactory)
-        : base(optionsFactory)
+    readonly IServiceProvider _provider;
+    readonly IOptionsMonitor<HttpClientFactoryOptions> _httpOptions;
+
+    public ConfigureClientFromNodes(
+        IServiceProvider provider,
+        IOptionsFactory<ElasticsearchNodeOptions> nodeOptions,
+        IOptionsMonitor<HttpClientFactoryOptions> httpOptions)
+        : base(nodeOptions)
     {
+        _provider = provider;
+        _httpOptions = httpOptions;
     }
 
     protected override void Configure(ElasticsearchClientOptions options, ElasticsearchNodeOptions dependency)
@@ -19,5 +28,6 @@ sealed class ConfigureClientFromNodes
 
         var fallback = options.NodePool;
         options.NodePool = () => dependency.CreatePool() ?? fallback();
+        options.Connection = () => new HttpFactoryClient(_provider, _httpOptions);
     }
 }
