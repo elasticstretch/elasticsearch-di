@@ -43,10 +43,12 @@ sealed class HttpFactoryClient : HttpTransportClient
             configureHandler = filter.Configure(configureHandler);
         }
 
-        var builder = _provider.GetRequiredService<HttpMessageHandlerBuilder>();
-        configureHandler(builder);
+        var builder = _provider.GetRequiredService<HttpMessageHandlerBuilder>(); 
+        builder.Name = ClientName;
 
+        configureHandler(builder);
         builder.PrimaryHandler = base.CreateHttpClientHandler(requestData);
+
         return builder.Build();
     }
 }
