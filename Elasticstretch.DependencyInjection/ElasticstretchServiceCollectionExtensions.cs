@@ -35,6 +35,7 @@ public static class ElasticstretchServiceCollectionExtensions
         Action<IHttpClientBuilder>? configureHttp = null)
     {
         services.AddOptions();
+        services.AddHttpClient();
 
         TryConfigure<ElasticsearchCredentialOptions, ConfigureCredentialsFromConfig>(services);
         TryConfigure<ElasticsearchNodeOptions, ConfigureNodesFromConfig>(services);
