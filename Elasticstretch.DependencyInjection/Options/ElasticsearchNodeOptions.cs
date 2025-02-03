@@ -21,7 +21,7 @@ public class ElasticsearchNodeOptions
     /// <remarks>
     /// Incompatible with <see cref="CloudId"/>.
     /// </remarks>
-    public ICollection<Uri> NodeUris { get; } = new List<Uri>();
+    public ICollection<Uri> NodeUris { get; } = [];
 
     /// <summary>
     /// Gets or sets whether "sticky" node selection is used (e.g. <see cref="StickyNodePool"/>).

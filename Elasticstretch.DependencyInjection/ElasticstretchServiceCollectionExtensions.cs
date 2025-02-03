@@ -1,6 +1,7 @@
 ﻿namespace Elastic.Clients.Elasticsearch;
 
 using Elastic.Clients.Elasticsearch.Options;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;

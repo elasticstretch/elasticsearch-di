@@ -3,10 +3,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-sealed class ConfigureNodesFromConfig : ConfigureFromConfigurationOptions<ElasticsearchNodeOptions>
+sealed class ConfigureNodesFromConfig(IConfiguration config)
+    : ConfigureFromConfigurationOptions<ElasticsearchNodeOptions>(config.GetSection(Path))
 {
-    public ConfigureNodesFromConfig(IConfiguration config)
-        : base(config.GetSection("Elasticsearch"))
-    {
-    }
+    public const string Path = "Elasticsearch";
 }

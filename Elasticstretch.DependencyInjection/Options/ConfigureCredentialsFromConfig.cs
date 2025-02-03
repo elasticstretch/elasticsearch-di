@@ -3,10 +3,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-sealed class ConfigureCredentialsFromConfig : ConfigureFromConfigurationOptions<ElasticsearchCredentialOptions>
+sealed class ConfigureCredentialsFromConfig(IConfiguration config)
+    : ConfigureFromConfigurationOptions<ElasticsearchCredentialOptions>(config.GetSection(Path))
 {
-    public ConfigureCredentialsFromConfig(IConfiguration config)
-        : base(config.GetSection(ConfigurationPath.Combine("Elasticsearch", "Credentials")))
-    {
-    }
+    public static readonly string Path = ConfigurationPath.Combine("Elasticsearch", "Credentials");
 }

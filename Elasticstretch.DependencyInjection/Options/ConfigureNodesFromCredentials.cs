@@ -2,14 +2,9 @@
 
 using Microsoft.Extensions.Options;
 
-sealed class ConfigureNodesFromCredentials
-    : ConfigureOptionsFromOptions<ElasticsearchNodeOptions, ElasticsearchCredentialOptions>
+sealed class ConfigureNodesFromCredentials(IOptionsFactory<ElasticsearchCredentialOptions> optionsFactory)
+    : ConfigureOptionsFromOptions<ElasticsearchNodeOptions, ElasticsearchCredentialOptions>(optionsFactory)
 {
-    public ConfigureNodesFromCredentials(IOptionsFactory<ElasticsearchCredentialOptions> optionsFactory)
-        : base(optionsFactory)
-    {
-    }
-
     protected override void Configure(ElasticsearchNodeOptions options, ElasticsearchCredentialOptions dependency)
     {
         var credentials = dependency.CreateHeader();

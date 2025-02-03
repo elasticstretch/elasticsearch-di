@@ -3,25 +3,13 @@
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
 
-sealed class ConfigureClientFromNodes
-    : ConfigureOptionsFromOptions<ElasticsearchClientOptions, ElasticsearchNodeOptions>
+sealed class ConfigureClientFromNodes(
+    IServiceProvider provider,
+    IOptionsFactory<ElasticsearchNodeOptions> nodeOptions,
+    IOptionsMonitor<HttpClientFactoryOptions> httpOptions,
+    IEnumerable<IHttpMessageHandlerBuilderFilter> httpFilters)
+        : ConfigureOptionsFromOptions<ElasticsearchClientOptions, ElasticsearchNodeOptions>(nodeOptions)
 {
-    readonly IServiceProvider _provider;
-    readonly IOptionsMonitor<HttpClientFactoryOptions> _httpOptions;
-    readonly IEnumerable<IHttpMessageHandlerBuilderFilter> _httpFilters;
-
-    public ConfigureClientFromNodes(
-        IServiceProvider provider,
-        IOptionsFactory<ElasticsearchNodeOptions> nodeOptions,
-        IOptionsMonitor<HttpClientFactoryOptions> httpOptions,
-        IEnumerable<IHttpMessageHandlerBuilderFilter> httpFilters)
-        : base(nodeOptions)
-    {
-        _provider = provider;
-        _httpOptions = httpOptions;
-        _httpFilters = httpFilters;
-    }
-
     protected override void Configure(ElasticsearchClientOptions options, ElasticsearchNodeOptions dependency)
     {
         if (dependency.CredentialsHeader != null)
@@ -31,6 +19,6 @@ sealed class ConfigureClientFromNodes
 
         var fallback = options.NodePool;
         options.NodePool = () => dependency.CreatePool() ?? fallback();
-        options.Connection = () => new HttpFactoryClient(_provider, _httpOptions, _httpFilters);
+        options.Connection = () => new HttpFactoryClient(provider, httpOptions, httpFilters);
     }
 }

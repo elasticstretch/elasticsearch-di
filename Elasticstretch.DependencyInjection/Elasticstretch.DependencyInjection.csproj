@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>11.0</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AnalysisLevel>7-all</AnalysisLevel>
+    <AnalysisMode>all</AnalysisMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Elastic.Clients.Elasticsearch</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
     <Authors>Kyle McClellan</Authors>
-    <Copyright>%A9 2023 Kyle McClellan</Copyright>
+    <Copyright>%A9 2023-2025 Kyle McClellan</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>An extension of Elastic.Clients.Elasticsearch for use with Microsoft.Extensions.DependencyInjection (and friends).</Description>
     <PackageTags>elasticsearch;elastic;search;dependencyinjection;di;ioc</PackageTags>
@@ -27,10 +27,10 @@
 
   <ItemGroup>
     <PackageReference Include="Elastic.Clients.Elasticsearch" Version="[8.9.*,8.12)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.*" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*" PrivateAssets="All" />
   </ItemGroup>
 
