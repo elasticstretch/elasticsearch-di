@@ -47,12 +47,14 @@ public static class ElasticstretchServiceCollectionExtensions
             x => new ElasticsearchClient(
                 x.GetRequiredService<IOptions<ElasticsearchClientOptions>>().Value.ToSettings()));
 
+        services.TryAddTransient<DelegatingHttpHandlerFactory>();
+
         if (configureSettings != null)
         {
             services.Configure<ElasticsearchClientOptions>(x => x.ConfigureSettings += configureSettings);
         }
 
-        configureHttp?.Invoke(services.AddHttpClient(HttpFactoryClient.ClientName));
+        configureHttp?.Invoke(services.AddHttpClient(ConfigureClientFromNodes.HttpClientName));
 
         return services;
     }

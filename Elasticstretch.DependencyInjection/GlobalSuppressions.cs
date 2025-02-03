@@ -23,3 +23,9 @@
     "CA1812:Avoid uninstantiated internal classes",
     Scope = "type",
     Target = "~T:Elastic.Clients.Elasticsearch.Options.ConfigureClientFromNodes")]
+
+[assembly: SuppressMessage(
+    "Performance",
+    "CA1812:Avoid uninstantiated internal classes",
+    Scope = "type",
+    Target = "~T:Elastic.Clients.Elasticsearch.Options.DelegatingHttpHandlerFactory")]

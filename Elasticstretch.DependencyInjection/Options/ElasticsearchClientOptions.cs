@@ -19,7 +19,7 @@ public class ElasticsearchClientOptions
     /// <summary>
     /// Gets or sets the factory for the underlying transport connection.
     /// </summary>
-    public Func<TransportClient> Connection { get; set; } = () => new HttpTransportClient();
+    public Func<IRequestInvoker> Connection { get; set; } = () => new HttpRequestInvoker();
 
     /// <summary>
     /// Gets or sets the factory for the client source serializer.

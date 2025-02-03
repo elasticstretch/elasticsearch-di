@@ -1,25 +1,21 @@
 ﻿namespace Elastic.Clients.Elasticsearch.Options;
 
-using Elastic.Clients.Elasticsearch;
-using Elastic.Transport;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Options;
 
 using System.Net.Http;
 
-sealed class HttpFactoryClient(
-    IServiceProvider provider,
+// Use as much as we can from HTTP client factory configuration, while injecting a primary handler on demand.
+// Compare with https://github.com/dotnet/runtime/blob/05d94d94028b5622b19734e0e1b60d7aca4667b3/src/libraries/Microsoft.Extensions.Http/src/DefaultHttpMessageHandlerBuilder.cs#L47
+sealed class DelegatingHttpHandlerFactory(
+    IServiceProvider services,
     IOptionsMonitor<HttpClientFactoryOptions> options,
     IEnumerable<IHttpMessageHandlerBuilderFilter> filters)
-    : HttpTransportClient
 {
-    public const string ClientName = nameof(ElasticsearchClient);
-
-    protected override HttpMessageHandler CreateHttpClientHandler(RequestData requestData)
+    public HttpMessageHandler CreateDelegatingHandler(string clientName, HttpMessageHandler primaryHandler)
     {
-        var clientOptions = options.Get(ClientName);
+        var clientOptions = options.Get(clientName);
 
         var configureHandler = (HttpMessageHandlerBuilder builder) =>
         {
@@ -35,11 +31,11 @@ sealed class HttpFactoryClient(
             configureHandler = filter.Configure(configureHandler);
         }
 
-        var builder = provider.GetRequiredService<HttpMessageHandlerBuilder>(); 
-        builder.Name = ClientName;
+        var builder = services.GetRequiredService<HttpMessageHandlerBuilder>(); 
+        builder.Name = clientName;
 
         configureHandler(builder);
-        builder.PrimaryHandler = base.CreateHttpClientHandler(requestData);
+        builder.PrimaryHandler = primaryHandler;
 
         return builder.Build();
     }

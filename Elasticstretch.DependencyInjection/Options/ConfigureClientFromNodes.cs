@@ -1,15 +1,16 @@
 ﻿namespace Elastic.Clients.Elasticsearch.Options;
 
-using Microsoft.Extensions.Http;
+using Elastic.Transport;
+
 using Microsoft.Extensions.Options;
 
 sealed class ConfigureClientFromNodes(
-    IServiceProvider provider,
-    IOptionsFactory<ElasticsearchNodeOptions> nodeOptions,
-    IOptionsMonitor<HttpClientFactoryOptions> httpOptions,
-    IEnumerable<IHttpMessageHandlerBuilderFilter> httpFilters)
+    DelegatingHttpHandlerFactory httpFactory,
+    IOptionsFactory<ElasticsearchNodeOptions> nodeOptions)
         : ConfigureOptionsFromOptions<ElasticsearchClientOptions, ElasticsearchNodeOptions>(nodeOptions)
 {
+    public const string HttpClientName = nameof(ElasticsearchClient);
+
     protected override void Configure(ElasticsearchClientOptions options, ElasticsearchNodeOptions dependency)
     {
         if (dependency.CredentialsHeader != null)
@@ -19,6 +20,11 @@ sealed class ConfigureClientFromNodes(
 
         var fallback = options.NodePool;
         options.NodePool = () => dependency.CreatePool() ?? fallback();
-        options.Connection = () => new HttpFactoryClient(provider, httpOptions, httpFilters);
+        options.Connection = () => new HttpRequestInvoker(CreateHttpHandler);
+    }
+
+    private HttpMessageHandler CreateHttpHandler(HttpMessageHandler defaultHandler, BoundConfiguration config)
+    {
+        return httpFactory.CreateDelegatingHandler(HttpClientName, defaultHandler);
     }
 }
